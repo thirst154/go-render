@@ -9,7 +9,7 @@ Using [This Blog](https://www.gabrielgambetta.com/computer-graphics-from-scratch
 ### Raytracing
 
 - [x] Basic Raycasting
-- [ ] Light Sim
+- [x] Light Sim
 - [ ] Shadows and Reflections
 - [ ] Extending Raytracer
 

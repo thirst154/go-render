@@ -1,5 +1,7 @@
 package renderer
 
+import "math"
+
 type Vec3 struct {
 	X, Y, Z float64
 }
@@ -38,4 +40,12 @@ func vec3Add(a, b Vec3) Vec3 {
 		Y: a.Y + b.Y,
 		Z: a.Z + b.Z,
 	}
+}
+
+func vec3Length(v Vec3) float64 {
+	return math.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
+}
+
+func vec3Normalize(v Vec3) Vec3 {
+	return vec3Scale(v, 1.0/vec3Length(v))
 }

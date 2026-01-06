@@ -135,7 +135,7 @@ func in(l, min, max float64) bool {
 	return l >= min && l <= max
 }
 
-func TraceRay(O Vec3, D Vec3, tMin, tMax float64, scene Scene) Color {
+func ClosestIntersection(O Vec3, D Vec3, tMin, tMax float64, scene Scene) (*Sphere, float64) {
 	closestT := math.Inf(1)
 	var closestSphere *Sphere = nil
 
@@ -156,6 +156,14 @@ func TraceRay(O Vec3, D Vec3, tMin, tMax float64, scene Scene) Color {
 		}
 
 	}
+
+	return closestSphere, closestT
+}
+
+func TraceRay(O Vec3, D Vec3, tMin, tMax float64, scene Scene) Color {
+
+	closestSphere, closestT := ClosestIntersection(O, D, tMin, tMax, scene)
+
 	if closestSphere == nil {
 		return BACKGROUND_COLOR // Background color
 	}
@@ -168,7 +176,7 @@ func TraceRay(O Vec3, D Vec3, tMin, tMax float64, scene Scene) Color {
 	N = vec3Normalize(N)
 
 	DNegated := NewVec3(-D.X, -D.Y, -D.Z)
-	illum := ComputeLighting(P, N, DNegated, closestSphere.Specular, scene.Lights)
+	illum := ComputeLighting(P, N, DNegated, closestSphere.Specular, scene)
 	if illum < 0 {
 		illum = 0
 	}

@@ -12,6 +12,8 @@ Using [This Blog](https://www.gabrielgambetta.com/computer-graphics-from-scratch
 - [x] Light Sim
 - [x] Specular Highlights
 - [ ] Shadows and Reflections
+  - [x] Shadows
+  - [ ] Reflections
 - [ ] Extending Raytracer
 
 ### Rasterization

@@ -69,7 +69,7 @@ func randomSphere(number int) []renderer.Sphere {
 
 func main() {
 	spheres := []renderer.Sphere{
-		{Center: renderer.NewVec3(0, -1, 3), Radius: 1, Color: renderer.RED, Specular: 500},  // Red sphere SHINY
+		{Center: renderer.NewVec3(0, -1, 3), Radius: 2, Color: renderer.RED, Specular: 500},  // Red sphere SHINY
 		{Center: renderer.NewVec3(2, 0, 4), Radius: 1, Color: renderer.BLUE, Specular: 500},  // Blue sphere
 		{Center: renderer.NewVec3(-2, 0, 4), Radius: 1, Color: renderer.GREEN, Specular: 10}, // Green sphere
 		{Center: renderer.NewVec3(0, -5001, 0), Radius: 5000, Color: renderer.YELLOW, Specular: 1000},

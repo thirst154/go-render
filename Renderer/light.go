@@ -44,26 +44,35 @@ func NewPointLight(intensity float64, position Vec3) Light {
 // N is the normal of the point being lit
 // V is the view vector
 // s is the specular vector
-func ComputeLighting(P Vec3, N Vec3, V Vec3, s float64, lights []Light) float64 {
+func ComputeLighting(P Vec3, N Vec3, V Vec3, s float64, scene Scene) float64 {
 	i := 0.0
 	N = vec3Normalize(N) // ensure normal is unit
 	V = vec3Normalize(V)
 
-	for _, light := range lights {
+	for _, light := range scene.Lights {
 		if light.Type == Ambient {
 			i += light.Intensity
 			continue
 		}
 
 		var L Vec3
+		var tMax float64
 		if light.Type == Point {
 			L = vec3Subtract(light.Position, P)
+			tMax = 1
 		} else { // Directional
 			L = light.Direction
+			tMax = math.Inf(1)
 		}
 
 		// normalize light direction
 		L = vec3Normalize(L)
+
+		// Shadow check
+		shadow_sphere, _ := ClosestIntersection(P, L, 0.001, tMax, scene)
+		if shadow_sphere != nil {
+			continue
+		}
 
 		// Diffuse
 		nDotL := vec3Dot(N, L)

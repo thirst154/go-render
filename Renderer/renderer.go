@@ -22,9 +22,10 @@ type Renderer struct {
 }
 
 type Sphere struct {
-	Center Vec3
-	Radius int
-	Color  Color
+	Center   Vec3
+	Radius   int
+	Color    Color
+	Specular float64
 }
 
 type Scene struct {
@@ -163,10 +164,11 @@ func TraceRay(O Vec3, D Vec3, tMin, tMax float64, scene Scene) Color {
 
 	// Lighting
 	P := vec3Add(O, vec3Scale(D, closestT))
-	N := vec3Subtract(P, closestSphere.Center)
+	N := vec3Subtract(P, closestSphere.Center) // Sphere normal
 	N = vec3Normalize(N)
 
-	illum := ComputeLighting(P, N, scene.Lights)
+	DNegated := NewVec3(-D.X, -D.Y, -D.Z)
+	illum := ComputeLighting(P, N, DNegated, closestSphere.Specular, scene.Lights)
 	if illum < 0 {
 		illum = 0
 	}

@@ -8,8 +8,8 @@ import (
 )
 
 const (
-	W = 320 * 2
-	H = 240 * 2
+	W = 320
+	H = 240
 )
 
 type Game struct {
@@ -69,15 +69,15 @@ func randomSphere(number int) []renderer.Sphere {
 
 func main() {
 	spheres := []renderer.Sphere{
-		{Center: renderer.NewVec3(0, -1, 3), Radius: 1, Color: renderer.RED},   // Red sphere
-		{Center: renderer.NewVec3(2, 0, 4), Radius: 1, Color: renderer.BLUE},   // Blue sphere
-		{Center: renderer.NewVec3(-2, 0, 4), Radius: 1, Color: renderer.GREEN}, // Green sphere
-		{Center: renderer.NewVec3(0, -5001, 0), Radius: 5000, Color: renderer.YELLOW},
+		{Center: renderer.NewVec3(0, -1, 3), Radius: 1, Color: renderer.RED, Specular: 500},  // Red sphere SHINY
+		{Center: renderer.NewVec3(2, 0, 4), Radius: 1, Color: renderer.BLUE, Specular: 500},  // Blue sphere
+		{Center: renderer.NewVec3(-2, 0, 4), Radius: 1, Color: renderer.GREEN, Specular: 10}, // Green sphere
+		{Center: renderer.NewVec3(0, -5001, 0), Radius: 5000, Color: renderer.YELLOW, Specular: 1000},
 	}
 
 	lights := []renderer.Light{
-		renderer.NewAmbientLight(0.2),
-		renderer.NewDirectionalLight(0.6, renderer.NewVec3(-1, -1, -1)),
+		renderer.NewAmbientLight(0.1),
+		renderer.NewDirectionalLight(0.6, renderer.NewVec3(0, 10, -1)),
 	}
 
 	render := renderer.NewRenderer(W, H)

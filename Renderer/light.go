@@ -1,5 +1,7 @@
 package renderer
 
+import "math"
+
 type LightType string
 
 const (
@@ -38,9 +40,14 @@ func NewPointLight(intensity float64, position Vec3) Light {
 	}
 }
 
-func ComputeLighting(P Vec3, N Vec3, lights []Light) float64 {
+// P is the position of the point being lit
+// N is the normal of the point being lit
+// V is the view vector
+// s is the specular vector
+func ComputeLighting(P Vec3, N Vec3, V Vec3, s float64, lights []Light) float64 {
 	i := 0.0
 	N = vec3Normalize(N) // ensure normal is unit
+	V = vec3Normalize(V)
 
 	for _, light := range lights {
 		if light.Type == Ambient {
@@ -57,10 +64,22 @@ func ComputeLighting(P Vec3, N Vec3, lights []Light) float64 {
 
 		// normalize light direction
 		L = vec3Normalize(L)
+
+		// Diffuse
 		nDotL := vec3Dot(N, L)
 		if nDotL > 0 {
 			i += light.Intensity * nDotL
 		}
+
+		// Specular R = 2 * N * dot(N, L) - L
+		if s != -1 && nDotL > 0 {
+			R := vec3Subtract(vec3Scale(N, 2*nDotL), L)
+			rDotV := vec3Dot(vec3Normalize(R), V)
+			if rDotV > 0 {
+				i += light.Intensity * math.Pow(rDotV, s)
+			}
+		}
+
 	}
 
 	return i

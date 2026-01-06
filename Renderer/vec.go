@@ -14,7 +14,7 @@ func NewVec3(x, y, z float64) Vec3 {
 	}
 }
 
-func vec3Subtract(a, b Vec3) Vec3 {
+func Vec3Subtract(a, b Vec3) Vec3 {
 	return Vec3{
 		X: a.X - b.X,
 		Y: a.Y - b.Y,
@@ -22,11 +22,11 @@ func vec3Subtract(a, b Vec3) Vec3 {
 	}
 }
 
-func vec3Dot(a, b Vec3) float64 {
+func Vec3Dot(a, b Vec3) float64 {
 	return a.X*b.X + a.Y*b.Y + a.Z*b.Z
 }
 
-func vec3Scale(v Vec3, s float64) Vec3 {
+func Vec3Scale(v Vec3, s float64) Vec3 {
 	return Vec3{
 		X: v.X * s,
 		Y: v.Y * s,
@@ -34,7 +34,7 @@ func vec3Scale(v Vec3, s float64) Vec3 {
 	}
 }
 
-func vec3Add(a, b Vec3) Vec3 {
+func Vec3Add(a, b Vec3) Vec3 {
 	return Vec3{
 		X: a.X + b.X,
 		Y: a.Y + b.Y,
@@ -42,10 +42,10 @@ func vec3Add(a, b Vec3) Vec3 {
 	}
 }
 
-func vec3Length(v Vec3) float64 {
+func Vec3Length(v Vec3) float64 {
 	return math.Sqrt(v.X*v.X + v.Y*v.Y + v.Z*v.Z)
 }
 
-func vec3Normalize(v Vec3) Vec3 {
-	return vec3Scale(v, 1.0/vec3Length(v))
+func Vec3Normalize(v Vec3) Vec3 {
+	return Vec3Scale(v, 1.0/Vec3Length(v))
 }

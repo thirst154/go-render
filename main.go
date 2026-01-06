@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"math/rand"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -15,32 +16,16 @@ const (
 type Game struct {
 	render *renderer.Renderer
 	scene  *renderer.Scene
+	player *Player
 }
 
 func (g *Game) Update() error {
-	// Example Spheres
-
-	// Keypress handling using ebiten
-	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		g.render.Cam.Position.X -= 0.1
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		g.render.Cam.Position.X += 0.1
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyUp) {
-		g.render.Cam.Position.Z += 0.1
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyDown) {
-		g.render.Cam.Position.Z -= 0.1
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyW) {
-		g.render.Cam.Rotation.X += 0.1
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyS) {
-		g.render.Cam.Rotation.X -= 0.1
-	}
-
+	g.player.Update()
+	g.player.MoveCamera(&g.render.Cam)
 	g.render.Render(*g.scene)
+
+	ebiten.SetWindowTitle(fmt.Sprintf("FPS: %.2f", ebiten.ActualFPS()))
+
 	return nil
 }
 
@@ -81,5 +66,16 @@ func main() {
 	}
 
 	render := renderer.NewRenderer(W, H)
-	ebiten.RunGame(&Game{render: render, scene: &renderer.Scene{Spheres: spheres, Lights: lights}})
+	newplayer := NewPlayer(
+		renderer.NewVec3(0, 0, 0),
+		renderer.NewVec3(0, 0, 0),
+	)
+	ebiten.RunGame(&Game{
+		render: render,
+		scene: &renderer.Scene{
+			Spheres: spheres,
+			Lights:  lights,
+		},
+		player: &newplayer,
+	})
 }

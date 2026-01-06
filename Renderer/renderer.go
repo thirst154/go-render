@@ -94,17 +94,17 @@ func RayEquation(CamPos Vec3, ViewportPos Vec3, t float64) Vec3 {
 
 	rayDir := RayDirection(CamPos, ViewportPos)
 
-	return vec3Add(CamPos, vec3Scale(rayDir, t))
+	return Vec3Add(CamPos, Vec3Scale(rayDir, t))
 }
 
 func RayDirection(CamPos Vec3, ViewportPos Vec3) Vec3 {
-	return vec3Subtract(ViewportPos, CamPos)
+	return Vec3Subtract(ViewportPos, CamPos)
 }
 
 // Points on a sphere satisfy the equation (P - C) · (P - C) = r^2
 
 func SphereEquation(P Vec3, C Vec3, r int) bool {
-	d := vec3Subtract(P, C)
+	d := Vec3Subtract(P, C)
 
 	return d.X*d.X+d.Y*d.Y+d.Z*d.Z <= float64(r*r)
 }
@@ -113,11 +113,11 @@ func SphereEquation(P Vec3, C Vec3, r int) bool {
 
 func IntersectRaySphere(O Vec3, D Vec3, sphere Sphere) (float64, float64) {
 	r := sphere.Radius
-	CO := vec3Subtract(O, sphere.Center)
+	CO := Vec3Subtract(O, sphere.Center)
 
-	a := vec3Dot(D, D)
-	b := 2 * vec3Dot(CO, D)
-	c := vec3Dot(CO, CO) - float64(r*r)
+	a := Vec3Dot(D, D)
+	b := 2 * Vec3Dot(CO, D)
+	c := Vec3Dot(CO, CO) - float64(r*r)
 
 	discriminant := b*b - 4*a*c
 	if discriminant < 0 {
@@ -171,9 +171,9 @@ func TraceRay(O Vec3, D Vec3, tMin, tMax float64, scene Scene) Color {
 	//return closestSphere.Color
 
 	// Lighting
-	P := vec3Add(O, vec3Scale(D, closestT))
-	N := vec3Subtract(P, closestSphere.Center) // Sphere normal
-	N = vec3Normalize(N)
+	P := Vec3Add(O, Vec3Scale(D, closestT))
+	N := Vec3Subtract(P, closestSphere.Center) // Sphere normal
+	N = Vec3Normalize(N)
 
 	DNegated := NewVec3(-D.X, -D.Y, -D.Z)
 	illum := ComputeLighting(P, N, DNegated, closestSphere.Specular, scene)
